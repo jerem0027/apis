@@ -2,14 +2,14 @@ FROM arm32v7/python:3.11-slim-buster
 RUN apt update && apt upgrade -y
 RUN pip install --upgrade pip
 
-COPY apis/flask/requirements.txt requirements.txt
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
 RUN mkdir files
-COPY apis/flask/cert /cert
+COPY --from=jerem0027/certificats:10-2023 /etc/certs /cert
 
-COPY apis/flask/app /app
+COPY /app /app
 
 WORKDIR /app
 
