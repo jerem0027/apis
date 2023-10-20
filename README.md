@@ -6,66 +6,35 @@ This is a website project host on my raspberry
 
 Present my work (like CV), and developpe my skill in:
 
-- HTML/CSS
-- JS
-- PHP
-- NETWORK
+- Python
+- REST API
+- Flask
+- Fast API
 
 ### Task
 
-- [x] Connection to Raspberry Pi
-- [x] Update + installation docker
-- [x] Check to open ports
-- [x] Contenerised website
-  - [x] PHP apache -> updated to nginx
-  - [x] Python Flask
-  - [x] Mysql -> change to mariadb
-  - [x] Phpmyadmin
-- [x] Change api to gunicorn
-- [x] Fix phpmyadmin redirection + block outside connection
-- [x] Fix managing password for mail and DB access
-- [ ] Move certificats to other repository
-- [ ] Update logs in api gunicorn
-- [ ] Clear docker-compose file
-  - [ ] Remove useless port
-  - [x] Add auto restart
-  - [ ] See for more parameter
-- [ ] Fix connection Home
-- [x] Templatisation
-- [ ] Auto save and deploy database
-- [ ] Automatisation deploy
-- [ ] Auto save Database
 - [ ] FLASK API
+  - [x] Change api to gunicorn
+  - [ ] Update logs in api gunicorn
+  - [ ] Automatisation deploy
   - [x] Manage Identity with token
   - [ ] Secret Santa DB
   - [ ] Secret Santa managing
-- [ ] Secret santa Pages
 
 ### Technology
 
-- HTML 5
-- CSS 3
-- JS
-- PHP 7
 - Docker
-- Docker-compose
-- Handlebars
 - Python 3.10
-- Node 10
-
-### Templating
-
-Use Handlabars and Yaml with js-yaml
-
-```sh
-sudo npm install -g npm to update
-npm install js-yaml
-```
 
 ### Development Env
 
 #### vs code debuger
-launch.json
+
+```sh
+mkdir .vscode && touch launch.json
+```
+
+Puis copier et adapter le contenue suivant:
 
 ```json
 {
@@ -85,12 +54,12 @@ launch.json
       },
       "args": [
         "--chdir",
-        "${workspaceFolder}/web_site/apis/flask/app",
+        "${workspaceFolder}/apis/flask/app",
         "--bind",
         "127.0.0.1:5000",
         "app:app"
       ],
-      "cwd": "${workspaceFolder}/web_site/apis/flask/"
+      "cwd": "${workspaceFolder}/apis/flask/"
     },
     {
       "name": "Python: Flask",
@@ -107,13 +76,13 @@ launch.json
       },
       "args": [
         "--chdir",
-        "${workspaceFolder}/web_site/apis/flask/app",
+        "${workspaceFolder}/apis/flask/app",
         "--reload",
         "--bind",
         "127.0.0.1:5000",
         "app:app"
       ],
-      "cwd": "${workspaceFolder}/web_site/apis/flask/"
+      "cwd": "${workspaceFolder}/apis/flask/"
     },
     {
       "name": "Python: FastAPI",
@@ -121,25 +90,17 @@ launch.json
       "request": "launch",
       "module": "uvicorn",
       "env": {
-        "ROOT_DB": "${workspaceFolder}/web_site/apis/fastAPI"
+        "ROOT_DB": "${workspaceFolder}/apis/fastAPI"
       },
       "args": [
         "--app-dir",
-        "${workspaceFolder}/web_site/apis/fastAPI",
+        "${workspaceFolder}/apis/fastAPI",
         "--reload",
         "app.app:app"
       ],
-      "cwd": "${workspaceFolder}/web_site/apis/fastAPI/"
+      "cwd": "${workspaceFolder}/apis/fastAPI/"
     }
   ]
-}
-```
-
-settings.json
-
-```json
-{
-  "python.pythonPath": "./virtualenv/bin/python3.10"
 }
 ```
 
