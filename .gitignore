@@ -1,0 +1,11 @@
+*.log
+
+# API run
+.vscode/
+__pycache__/
+
+# env python
+virtualenv/
+
+# Envconfig
+*.env

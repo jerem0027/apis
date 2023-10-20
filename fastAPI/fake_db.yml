@@ -1,0 +1,31 @@
+consoles:
+  - nom:
+      constructeur: Nintendo
+      modele: Switch
+    annee: 2017
+    couleur: Rouge
+  - nom:
+      constructeur: Nintendo
+      modele: WII
+    annee: 2006
+    couleur: Blanc
+  - nom:
+      constructeur: Sony
+      modele: Playstation 4
+    annee: 2013
+    couleur: Noir
+  - nom:
+      constructeur: Microsoft
+      modele: Xbox One
+    annee: 2013
+    couleur: Noir
+  - nom:
+      constructeur: Sony
+      modele: Playstation 5
+    annee: 2020
+    couleur: Blanc
+  - nom:
+      constructeur: Microsoft
+      modele: Xbox Series X
+    annee: 2020
+    couleur: Noir
