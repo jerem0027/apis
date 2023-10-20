@@ -6,7 +6,7 @@ import pytz
 
 paris = pytz.timezone('Europe/paris')
 
-TOKEN = "MTE2NDY2MzUwMDc2NTkyMTQ5MQ.Gp0cg-.gqhtXbuwuFMOd_UKj-NuQ3GzUQzInD4uw3a_hw"
+TOKEN = "TOKEN HERE"
 
 
 number = 0
