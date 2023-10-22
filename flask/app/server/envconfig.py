@@ -18,7 +18,7 @@ if DEBUG:
 
 # Path root
 PATH_ROOT = os.environ.get("PATH_ROOT", "")
-ICON = os.path.join(os.getcwd(), "static/icon.png")
+ICON = os.path.join(os.getcwd(), "static/icon_blue.png")
 
 # Folder creation files
 FILE_FOLDER = os.path.join(PATH_ROOT, "files")

@@ -56,7 +56,7 @@ class Server:
             app=blueprint,
             title="J.API",
             version=API_VERSION,
-            description="Jeremie API - Api dédié à la partie Secret Santa du site",
+            description="Jeremie API - Api dédié à la partie Secret Santa du site\n\n<a href=\"/home/\">back Home</a>",
             authorizations=self.authorizations,
             security="apikey"
         )
