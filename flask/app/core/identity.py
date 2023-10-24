@@ -12,7 +12,7 @@ from server.envconfig import DEBUG, confAuth
 def check_identity():
     if DEBUG:
         print(green("!!! Authentification in DEBUG mode !!!"))
-        return True
+        return {"masterkey": True}
 
     apikey = request.headers.get('APIKEY', None)
     if not apikey:

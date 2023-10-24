@@ -27,8 +27,9 @@ def log_request(response):
         code = green(response.status_code)
     if 400 <= response.status_code <= 499:
         code = red(response.status_code)
-    data = eval(request.data.decode("utf-8"))
+    data = request.data.decode("utf-8")
     if "password" in data or "pass" in data or "passwd" in data:
+        data = eval(data)
         if "password" in data:
             data["password"] = "****"
         if "pass" in data:

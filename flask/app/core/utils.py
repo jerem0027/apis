@@ -4,7 +4,7 @@
 import random
 import string
 
-import bcrypt
+from passlib.hash import bcrypt
 
 
 def random_number(size):
@@ -25,7 +25,7 @@ def generate_password(length=16) -> None:
 
 
 def encode_pass(passw:str) -> bytes:
-    return bcrypt.hashpw(passw.encode('utf-8'), bcrypt.gensalt())
+    return bcrypt.using(round=15).hash(passw.encode('utf-8'))
 
 def decode_pass(passwd:str, pass_hached:str) -> bool:
-    return bcrypt.checkpw(passwd.encode('utf-8'), pass_hached)
+    return bcrypt.verify(passwd.encode('utf-8'), pass_hached)
