@@ -10,18 +10,11 @@ from server.instance import server
 api = server.api
 
 identity_model = api.model('identity',{
-    'name': fields.String(
+    'pseudo': fields.Integer(
         required=True,
-        title='Name',
-        example='Julien',
-        description='Name of current guest',
-    ),
-
-    'id': fields.Integer(
-        required=True,
-        title='Unique ID',
+        title='Pseudo',
         example=1,
-        description='Unique ID'
+        description='User pseudo'
     ),
 })
 
@@ -30,11 +23,11 @@ identity = api.namespace(
     description='Identity namespace'
 )
 
-@identity.response(500, 'Internal error')
+@identity.response(500, 'Internal Server Error')
+@identity.response(400, 'Missing parameter')
 @identity.route("/")
 class Identity(Resource):
     @identity.response(200, 'Function ok')
-    @identity.response(400, 'Missing parameter')
     def get(self):
         """
         check identity and access validity to API
@@ -42,7 +35,6 @@ class Identity(Resource):
         return check_identity(), 200
 
     @identity.response(200, 'Function ok')
-    @identity.response(400, 'Missing parameter')
     @identity.expect(identity_model)
     def post(self):
         """
@@ -53,7 +45,6 @@ class Identity(Resource):
         return { "APIKEY": generate_APIKEY(request.json)}, 200
 
     @identity.response(200, 'Function ok')
-    @identity.response(400, 'Missing parameter')
     def patch(self):
         """
         Generate MASTER APIKEY (only for admin)

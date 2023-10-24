@@ -1,4 +1,5 @@
 from controllers.email_controller import *
+from controllers.home_users_controller import *
 from controllers.identity_controller import *
 from controllers.secret_santa_controller import *
 from controllers.tests_controller import *

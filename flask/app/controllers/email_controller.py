@@ -5,10 +5,11 @@ import smtplib
 import ssl
 
 from core.identity import check_identity
-from flask import request
 from flask_restx import Resource
 from server.envconfig import configMail
 from server.instance import server
+
+from flask import request
 
 app, api, db = server.app, server.api, server.db
 
@@ -17,7 +18,7 @@ ns = api.namespace(
     description='Send an email'
 )
 
-@ns.response(500, 'Internal error')
+@ns.response(500, 'Internal Server Error')
 @ns.route("/send_mail/<string:email>")
 class unique_demande(Resource):
     @ns.response(200, 'Email send')

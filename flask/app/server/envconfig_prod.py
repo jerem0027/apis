@@ -6,7 +6,7 @@ from distutils.util import strtobool
 
 from core.colors import green
 
-API_VERSION = "1.0.3"
+API_VERSION = "1.0.4"
 BASE_URL = "/api/v1"
 
 

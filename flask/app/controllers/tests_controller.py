@@ -44,7 +44,7 @@ class Test(db.Model):
         else:
             raise DBError("Aucun element avec cette clé primaire n'existe")
 
-@test_ns.response(500, 'Internal error')
+@test_ns.response(500, 'Internal Server Error')
 @test_ns.route("/get_all")
 class Random(Resource):
     @test_ns.response(200, 'Function ok')
@@ -60,7 +60,7 @@ class Random(Resource):
             "content": data
             }, 200
 
-@test_ns.response(500, 'Internal error')
+@test_ns.response(500, 'Internal Server Error')
 @test_ns.route("/check_authentification")
 class Random(Resource):
     @test_ns.response(200, 'Function ok')
@@ -71,7 +71,7 @@ class Random(Resource):
         """
         return check_identity()
 
-@test_ns.response(500, 'Internal error')
+@test_ns.response(500, 'Internal Server Error')
 @test_ns.route("/manage/<string:id>")
 class Random(Resource):
     @test_ns.response(200, 'Function ok')

@@ -27,6 +27,15 @@ def log_request(response):
         code = green(response.status_code)
     if 400 <= response.status_code <= 499:
         code = red(response.status_code)
+    data = eval(request.data.decode("utf-8"))
+    if "password" in data or "pass" in data or "passwd" in data:
+        if "password" in data:
+            data["password"] = "****"
+        if "pass" in data:
+            data["pass"] = "****"
+        if "passwd" in data:
+            data["passwd"] = "****"
+        request.data = str(data).encode("utf-8")
     log_params = [
         # ('sender', sender),
         ('client_ip', cyan(client_ip)),
@@ -47,7 +56,7 @@ def log_request(response):
     line = " ".join(parts)
 
     if 400 <= response.status_code <= 499:
-        server.app.logger.warning(line)
+        server.app.logger.error(line)
     elif 200 <= response.status_code <= 299 and "swagger.json" not in request.path:
         server.app.logger.info(line)
     return response

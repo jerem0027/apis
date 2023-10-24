@@ -64,26 +64,6 @@ class Guest_DB(db.Model):
         else:
             raise ObjectNotFound(f"Error : No guest find for link {link}")
 
-
-class User(db.Model):
-    __bind_key__ = confdb.db_santa_name
-    __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
-
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return "id: %i, name: %s" % (self.id, self.name)
-
-    def add_user(self):
-        if not db.session.query(User).get(self.id):
-            db.session.add(self)
-            db.session.commit()
-        else:
-            raise DBError("Un element avec la meme clé primaire existe déjà")
-
 try:
     with app.app_context():
         db.create_all(bind_key=confdb.db_santa_name)

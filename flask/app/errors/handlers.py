@@ -23,7 +23,6 @@ app, api = server.app, server.api
 
 @api.errorhandler(TokenError)
 def handle_token_error(e):
-    logging.error(str(e))
     code = 401
     type = e.__class__.__name__
     response = {
@@ -37,7 +36,6 @@ def handle_token_error(e):
 
 @api.errorhandler(FileError)
 def handle_error_database(e):
-    logging.error(str(e))
     code = 402
     type = e.__class__.__name__
     response = {
@@ -51,7 +49,6 @@ def handle_error_database(e):
 
 @api.errorhandler(DBError)
 def handle_database_error(e):
-    logging.error(str(e))
     code = 403
     type = e.__class__.__name__
     response = {
@@ -65,7 +62,6 @@ def handle_database_error(e):
 
 @api.errorhandler(ObjectNotFound)
 def handle_object_not_found(e):
-    logging.error(str(e))
     code = 404
     type = e.__class__.__name__
     response = {

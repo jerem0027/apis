@@ -49,7 +49,7 @@ def generate_APIKEY(user_data:dict):
             if key in ["masterkey", "exp", "iat"]:
                 raise TokenError("Invalid token data")
     payload.update(user_data)
-    return encode(payload, confAuth.JWT_SECRET_KEY, algorithm='HS256'), 200
+    return encode(payload, confAuth.JWT_SECRET_KEY, algorithm='HS256')
 
 def generate_MASTERKEY(payload):
     """
@@ -63,4 +63,4 @@ def generate_MASTERKEY(payload):
         'iat': datetime.utcnow()
     }
     payload.update(refresh)
-    return encode(payload, confAuth.JWT_SECRET_KEY, algorithm='HS256'), 200
+    return encode(payload, confAuth.JWT_SECRET_KEY, algorithm='HS256')

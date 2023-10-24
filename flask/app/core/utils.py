@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import random
 import string
 
-os.environ["export PYTHONIOENCODING"] = "UTF-8"
+import bcrypt
+
 
 def random_number(size):
     lst_rand = []
-    for i in range(0,1000):
+    for _ in range(0,1000):
         lst_rand.append(random.randint(0,size-1))
 
     return lst_rand[random.randint(0,len(lst_rand)-1)]
@@ -22,3 +22,10 @@ def generate_password(length=16) -> None:
     print("Mot de passe généré :", password)
 
 # password = generate_password()
+
+
+def encode_pass(passw:str) -> bytes:
+    return bcrypt.hashpw(passw.encode('utf-8'), bcrypt.gensalt())
+
+def decode_pass(passwd:str, pass_hached:str) -> bool:
+    return bcrypt.checkpw(passwd.encode('utf-8'), pass_hached)
