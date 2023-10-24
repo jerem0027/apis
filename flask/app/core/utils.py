@@ -25,7 +25,7 @@ def generate_password(length=16) -> None:
 
 
 def encode_pass(passw:str) -> bytes:
-    return bcrypt.using(round=15).hash(passw.encode('utf-8'))
+    return bcrypt.using(rounds=15).hash(passw).encode('utf-8')
 
 def decode_pass(passwd:str, pass_hached:str) -> bool:
-    return bcrypt.verify(passwd.encode('utf-8'), pass_hached)
+    return bcrypt.verify(passwd, pass_hached)
