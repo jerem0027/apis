@@ -1,6 +1,9 @@
-FROM arm32v7/python:3.11-slim-buster
-RUN apt update && apt upgrade -y
-RUN pip install --upgrade pip
+FROM python:3.11-slim-buster
+RUN apt update && \
+    apt -y upgrade && \
+    apt -y install build-essential libffi-dev
+
+RUN pip install --upgrade -I pip
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
@@ -15,4 +18,4 @@ WORKDIR /app
 
 RUN mv server/envconfig_prod.py server/envconfig.py
 
-CMD ["python3", "-m", "gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "--certfile", "/cert/jeremiehenrion.pem", "--keyfile", "/cert/jeremiehenrion.key", "app:app"]
+CMD ["python3", "-m", "gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "--certfile", "/cert/jeremiehenrion.pem-chain", "--keyfile", "/cert/jeremiehenrion.key", "app:app"]
