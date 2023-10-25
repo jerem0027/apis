@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 from core.identity import check_identity, generate_APIKEY
 from core.utils import decode_pass, encode_pass
 from db.db_home_users import User_DB
@@ -77,6 +79,8 @@ class Home_users(Resource):
             first_name=user.get("first_name").capitalize(),
             name=user.get("name").capitalize(),
             email=user.get("email"),
-            password=encode_pass(user.get("password"))
+            password=encode_pass(user.get("password")),
+            birthdate=datetime.strptime(user.get("birthdate"), '%d-%m-%Y'),
+            inscription_date=datetime.strptime(datetime.now().strftime('%d-%m-%Y'),'%d-%m-%Y')
         ).add_user()
         return {"message": "Success, User created", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")})}, 200

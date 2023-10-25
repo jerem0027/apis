@@ -41,6 +41,13 @@ model_home_user = api.model('home_user',{
         pattern="^[a-zA-z][a-z- ]+[a-z]$"
     ),
 
+    'birthdate': fields.Date(
+        required=True,
+        title='Birthdate',
+        example='01-01-2023',
+        description='Birthdate of the new user'
+    ),
+
     'name': fields.String(
         required=True,
         title='Name',

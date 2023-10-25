@@ -8,13 +8,15 @@ from server.instance import server
 app, db = server.app, server.db
 
 class User_DB(db.Model):
-    __tablename__   = 'users'
-    __bind_key__    = confdb.db_home_name
-    pseudo          = db.Column(db.String(64), primary_key=True, unique=True)
-    first_name      = db.Column(db.String(64), nullable=False)
-    name            = db.Column(db.String(64), nullable=False)
-    email           = db.Column(db.String(64), nullable=False)
-    password        = db.Column(db.LargeBinary, nullable=False)
+    __tablename__     = 'users'
+    __bind_key__      = confdb.db_home_name
+    pseudo            = db.Column(db.String(64), primary_key=True, unique=True)
+    first_name        = db.Column(db.String(64), nullable=False)
+    name              = db.Column(db.String(64), nullable=False)
+    email             = db.Column(db.String(64), nullable=False)
+    password          = db.Column(db.LargeBinary, nullable=False)
+    birthdate         = db.Column(db.Date, nullable=False)
+    inscription_date  = db.Column(db.Date, nullable=False)
 
     def check_pseudo(self) -> bool:
         """Return true if pseudo already exist"""
