@@ -58,7 +58,7 @@ class Home_users_connection(Resource):
             raise ObjectNotFound("User not found")
         if not decode_pass(user.get("password"), user_bd.get_user().password):
             raise ObjectNotFound("Password doesn't match ok")
-        return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")})}, 200
+        return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "pseudo": user.get("pseudo")}, 200
 
 @home_db_ns.response(500, 'Internal Server Error')
 @home_db_ns.response(403, 'Error with Database')
