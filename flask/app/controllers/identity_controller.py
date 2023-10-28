@@ -3,9 +3,10 @@
 
 from core.identity import check_identity, generate_APIKEY, generate_MASTERKEY
 from errors.errors import TokenError
-from flask import request
 from flask_restx import Resource, fields
 from server.instance import server
+
+from flask import request
 
 api = server.api
 

@@ -4,9 +4,10 @@
 from core.identity import check_identity
 from core.utils import random_number
 from errors.errors import DBError
-from flask import request
 from flask_restx import Resource
 from server.instance import server
+
+from flask import request
 
 app, api, db = server.app, server.api, server.db
 

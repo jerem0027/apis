@@ -6,6 +6,15 @@ from server.instance import server
 
 api = server.api
 
+model_home_user_password = api.model('model_home_user_password',{
+    'password': fields.String(
+        required=True,
+        title='password',
+        example='azerty123',
+        description='Password of user',
+    )
+})
+
 model_home_user_connection = api.model('home_user_connection',{
     'pseudo': fields.String(
         required=True,

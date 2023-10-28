@@ -6,9 +6,8 @@ from distutils.util import strtobool
 
 from core.colors import green
 
-API_VERSION = "1.0.4"
+API_VERSION = "1.0.5"
 BASE_URL = "/api/v1"
-
 
 DEBUG = strtobool(os.environ.get("FLASK_DEBUG", "False"))
 ENV = os.environ.get("ENV", "production")
