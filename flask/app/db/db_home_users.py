@@ -21,6 +21,7 @@ class User_DB(db.Model):
     def __str__(self) -> str:
         return f"{self.pseudo} - {self.first_name} - {self.name} - {self.email} - {self.birthdate} - {self.inscription_date}"
 
+    # TODO: mettre les date dans le bon sens
     def to_dict(self) -> dict:
         return {
             "pseudo" : self.pseudo,
@@ -61,6 +62,8 @@ class User_DB(db.Model):
 
         user = self.get_user()
         for key in list(self.__dict__. keys())[1:]:
+            if key == "pseudo" or getattr(self, key) == None:
+                continue
             if getattr(self, key) != getattr(user, key):
                 setattr(user, key, getattr(self, key))
 

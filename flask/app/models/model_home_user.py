@@ -80,3 +80,33 @@ model_home_user = api.model('home_user',{
         description='Password of new user',
     )
 })
+
+model_home_update = api.model('home_user_update',{
+    'first_name': fields.String(
+        required=False,
+        title='First_name',
+        example='Julien',
+        description='First name of new user',
+        pattern="^[a-zA-z][a-z- ]+[a-z]$"
+    ),
+    'birthdate': fields.Date(
+        required=False,
+        title='Birthdate',
+        example='01-01-2023',
+        description='Birthdate of the new user'
+    ),
+    'name': fields.String(
+        required=False,
+        title='Name',
+        example='Dupont',
+        description='Name of new user',
+        pattern="^[a-zA-z][a-z- ]+[a-z]$"
+    ),
+    'email': fields.String(
+        required=False,
+        title='Email',
+        example='julien_dupont@mail.com',
+        description='Email of new user',
+        pattern="^[a-z][-a-z_0-9.]+@[a-z-.]+$"
+    )
+})

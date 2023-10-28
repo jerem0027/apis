@@ -5,6 +5,7 @@
 - Methode to get user data
 - Methode to remove user
 - Methode to change user password
+- Methode to change user data
 
 ### v1.0.4 (10-2023)
 

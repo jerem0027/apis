@@ -8,7 +8,7 @@ from core.utils import decode_pass, encode_pass
 from db.db_home_users import User_DB
 from errors.errors import ObjectNotFound, TokenError
 from flask_restx import Resource
-from models.model_home_user import (model_home_user,
+from models.model_home_user import (model_home_update, model_home_user,
                                     model_home_user_connection,
                                     model_home_user_password)
 from server.instance import server
@@ -107,6 +107,23 @@ class Home_users(Resource):
         User_DB(pseudo=pseudo).remove_user()
         return {"message": f"Success, User '{pseudo}' removed"}, 200
 
+    @home_db_ns.response(200, 'User data updated')
+    @home_db_ns.expect(model_home_update)
+    def put(self):
+        """
+        Update user
+        """
+        pseudo = check_identity().get("pseudo", "")
+        user:dict = request.json
+        User_DB(
+            pseudo=pseudo,
+            first_name=user.get("first_name").capitalize() if type(user.get("first_name", None)) == str else None,
+            name=user.get("name").capitalize() if type(user.get("name", None)) == str else None,
+            email=user.get("email", None),
+            birthdate=datetime.strptime(user.get("birthdate"), '%d-%m-%Y') if type(user.get("birthdate", None)) == str else None
+        ).update_user()
+        return {"message": "Success, User updated"}, 200
+
 @home_db_ns.response(500, 'Internal Server Error')
 @home_db_ns.response(403, 'Error with Database')
 @home_db_ns.response(401, 'Invalide Access Token')
@@ -119,16 +136,9 @@ class Home_users_password(Resource):
         Change user password
         """
         pseudo = check_identity().get("pseudo", "")
-        password = request.json.get("password")
         User_DB(
             pseudo=pseudo,
-            first_name=request.json.get("first_name", "jeean").capitalize(),
-            name=request.json.get("name", "jeean").capitalize(),
-            email=request.json.get("email", "jeean"),
-            password=encode_pass(request.json.get("password", "jeean")),
-            birthdate=datetime.strptime(request.json.get("birthdate", "10-10-2025"), '%d-%m-%Y'),
-            inscription_date=datetime.strptime(datetime.now().strftime('%d-%m-%Y'),'%d-%m-%Y')
+            password=encode_pass(request.json.get("password")),
         ).update_user()
 
-        # User_DB(pseudo=pseudo, password=password).update_user()
         return {"message": f"Success, User '{pseudo}' password updated"}, 200
