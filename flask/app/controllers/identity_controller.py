@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from core.identity import check_identity, generate_APIKEY, generate_MASTERKEY
-from errors.errors import TokenError
+from core.utils import decode_pass
+from db.db_home_users import User_DB
+from errors.errors import ObjectNotFound, TokenError
 from flask_restx import Resource, fields
+from models.model_home_user import model_home_user_connection
 from server.instance import server
 
 from flask import request
@@ -51,3 +54,27 @@ class Identity(Resource):
         Generate MASTER APIKEY (only for admin)
         """
         return { "APIKEY": generate_MASTERKEY(check_identity())}, 200
+    
+@identity.response(500, 'Internal Server Error')
+@identity.response(404, 'User not found')
+@identity.response(403, 'Error with Database')
+@identity.response(401, 'Invalide Access Token')
+@identity.route("/connection/")
+class Home_users_connection(Resource):
+    @identity.response(200, 'Password march successfully')
+    @identity.expect(model_home_user_connection)
+    def put(self):
+        """
+        check connection validity
+        """
+        if not "masterkey" in check_identity():
+            raise TokenError("Access denied")
+        user:dict = request.json
+        user_bd = User_DB(
+            pseudo=user.get("pseudo")
+        )
+        if not user_bd.check_pseudo():
+            raise ObjectNotFound("User not found")
+        if not decode_pass(user.get("password"), user_bd.get_user().password):
+            raise ObjectNotFound("Password doesn't match ok")
+        return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "pseudo": user.get("pseudo")}, 200

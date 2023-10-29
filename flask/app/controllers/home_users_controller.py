@@ -39,30 +39,6 @@ class Home_users_pseudo(Resource):
         raise ObjectNotFound("User not found")
 
 @home_db_ns.response(500, 'Internal Server Error')
-@home_db_ns.response(404, 'User not found')
-@home_db_ns.response(403, 'Error with Database')
-@home_db_ns.response(401, 'Invalide Access Token')
-@home_db_ns.route("/user/connection/")
-class Home_users_connection(Resource):
-    @home_db_ns.response(200, 'Password march successfully')
-    @home_db_ns.expect(model_home_user_connection)
-    def put(self):
-        """
-        check connection validity
-        """
-        if not "masterkey" in check_identity():
-            raise TokenError("Access denied")
-        user:dict = request.json
-        user_bd = User_DB(
-            pseudo=user.get("pseudo")
-        )
-        if not user_bd.check_pseudo():
-            raise ObjectNotFound("User not found")
-        if not decode_pass(user.get("password"), user_bd.get_user().password):
-            raise ObjectNotFound("Password doesn't match ok")
-        return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "pseudo": user.get("pseudo")}, 200
-
-@home_db_ns.response(500, 'Internal Server Error')
 @home_db_ns.response(403, 'Error with Database')
 @home_db_ns.response(401, 'Invalide Access Token')
 @home_db_ns.route("/user/")
