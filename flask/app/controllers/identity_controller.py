@@ -31,14 +31,14 @@ identity = api.namespace(
 @identity.response(400, 'Missing parameter')
 @identity.route("/")
 class Identity(Resource):
-    @identity.response(200, 'Function ok')
+    @identity.response(200, 'APIKEY accepted')
     def get(self):
         """
         check identity and access validity to API
         """
         return check_identity(), 200
 
-    @identity.response(200, 'Function ok')
+    @identity.response(200, 'New APIKEY generated')
     @identity.expect(identity_model)
     def post(self):
         """
@@ -48,7 +48,7 @@ class Identity(Resource):
             raise TokenError("Access denied")
         return { "APIKEY": generate_APIKEY(request.json)}, 200
 
-    @identity.response(200, 'Function ok')
+    @identity.response(200, 'New MASTERKEY generated')
     def patch(self):
         """
         Generate MASTER APIKEY (only for admin)
@@ -76,5 +76,5 @@ class Home_users_connection(Resource):
         if not user_bd.check_pseudo():
             raise ObjectNotFound("User not found")
         if not decode_pass(user.get("password"), user_bd.get_user().password):
-            raise ObjectNotFound("Password doesn't match ok")
+            raise ObjectNotFound("Password doesn't match")
         return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "pseudo": user.get("pseudo")}, 200
