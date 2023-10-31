@@ -10,7 +10,7 @@ model_home_user_password = api.model('model_home_user_password',{
     'password': fields.String(
         required=True,
         title='password',
-        example='azerty123',
+        example='Azerty_123',
         description='Password of user',
     )
 })
@@ -27,7 +27,7 @@ model_home_user_connection = api.model('home_user_connection',{
     'password': fields.String(
         required=True,
         title='password',
-        example='azerty123',
+        example='Azerty_123',
         description='Password of user',
     )
 })
@@ -76,7 +76,7 @@ model_home_user = api.model('home_user',{
     'password': fields.String(
         required=True,
         title='password',
-        example='azerty123',
+        example='Azerty_123',
         description='Password of new user',
     )
 })
