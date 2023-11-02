@@ -14,10 +14,10 @@ from flask import request
 api = server.api
 
 identity_model = api.model('identity',{
-    'pseudo': fields.Integer(
+    'pseudo': fields.String(
         required=True,
         title='Pseudo',
-        example=1,
+        example='dark_lord',
         description='User pseudo'
     ),
 })
