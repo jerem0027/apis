@@ -13,6 +13,7 @@ RUN mkdir files
 COPY --from=jerem0027/certificats:10-2023 /etc/certs /cert
 
 COPY /app /app
+COPY CHANGELOG.md /app/static/CHANGELOG.md
 
 WORKDIR /app
 

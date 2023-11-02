@@ -9,3 +9,5 @@ virtualenv/
 
 # Envconfig
 *.env
+
+flask/app/static/CHANGELOG.md

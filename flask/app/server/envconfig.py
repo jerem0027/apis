@@ -6,8 +6,14 @@ from distutils.util import strtobool
 
 from core.colors import green
 
-API_VERSION = "1.0.5"
+API_VERSION = "1.0.6"
 BASE_URL = "/api/v1"
+DESCRIPTION = f"""
+<h2>API dédié à la partie Secret Santa du site</h2>
+<h4>Pour retourner sur le site cliquer ici <a href="/home/">HOME</a></h4>
+
+<h4>Vous pouvez trouver la derniere release note ici: <a href="{BASE_URL}/changelog">CHANGELOG</a></h4>
+"""
 
 DEBUG = strtobool(os.environ.get("FLASK_DEBUG", "False"))
 ENV = os.environ.get("ENV", "production")

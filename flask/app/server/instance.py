@@ -3,13 +3,16 @@
 
 import os
 
-from flask import (Blueprint, Flask, Response, redirect, request, send_file,
-                   url_for)
 from flask_cors import CORS
 from flask_restx import Api
 from flask_sqlalchemy import SQLAlchemy
+from markdown import markdown
 
-from .envconfig import API_VERSION, BASE_URL, DEBUG, ENV, ICON, confdb
+from flask import (Blueprint, Flask, Response, redirect, request, send_file,
+                   url_for)
+
+from .envconfig import (API_VERSION, BASE_URL, DEBUG, DESCRIPTION, ENV, ICON,
+                        confdb)
 
 
 class Server:
@@ -56,7 +59,7 @@ class Server:
             app=blueprint,
             title="J.API",
             version=API_VERSION,
-            description="Jeremie API - Api dédié à la partie Secret Santa du site\n\n<a href=\"/home/\">back Home</a>",
+            description=DESCRIPTION,
             authorizations=self.authorizations,
             security="apikey"
         )
@@ -85,3 +88,9 @@ def before_request() -> Response | None:
 @server.app.route("/swaggerui/favicon-32x32.png")
 def favicon3() -> Response:
     return send_file(open(os.path.join(ICON), 'rb'), mimetype="image/png")
+
+@server.app.route(f'{BASE_URL}/changelog')
+def changelog():
+    print(f"{os.getcwd()}/static/CHANGELOG.md")
+    with open(f"{os.getcwd() }/static/CHANGELOG.md", 'r', encoding='utf-8') as f:
+        return markdown(f.read()), 200
