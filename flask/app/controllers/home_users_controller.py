@@ -4,12 +4,11 @@
 from datetime import datetime
 
 from core.identity import check_identity, generate_APIKEY
-from core.utils import decode_pass, encode_pass
+from core.utils import encode_pass
 from db.db_home_users import User_DB
 from errors.errors import ObjectNotFound, TokenError
 from flask_restx import Resource
 from models.model_home_user import (model_home_update, model_home_user,
-                                    model_home_user_connection,
                                     model_home_user_password)
 from server.instance import server
 
@@ -35,7 +34,7 @@ class Home_users_pseudo(Resource):
         check_username
         """
         if User_DB(pseudo=pseudo).check_pseudo():
-            return {"message": "User found"}, 200
+            return {"status": "User found"}, 200
         raise ObjectNotFound("User not found")
 
 @home_db_ns.response(500, 'Internal Server Error')
@@ -60,8 +59,9 @@ class Home_users(Resource):
             password=encode_pass(user.get("password")),
             birthdate=datetime.strptime(user.get("birthdate"), '%d-%m-%Y'),
             inscription_date=datetime.strptime(datetime.now().strftime('%d-%m-%Y'),'%d-%m-%Y')
-        ).add_user()
-        return {"APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "message": "Success, User created"}, 200
+        ).create()
+
+        return {"status": "User created successfully", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")})}, 200
 
     @home_db_ns.response(200, 'User data send')
     def get(self):
@@ -69,10 +69,11 @@ class Home_users(Resource):
         Get user data
         """
         pseudo = check_identity().get("pseudo", "")
-        user_data = User_DB(pseudo=pseudo).get_user()
+        user_data = User_DB(pseudo=pseudo).get()
         if not user_data:
             raise ObjectNotFound(f"User '{pseudo}' not found")
-        return user_data.to_dict(), 200
+
+        return {"status": "Guest found", "content": user_data}, 200
 
     @home_db_ns.response(200, 'User removed')
     def delete(self):
@@ -80,8 +81,9 @@ class Home_users(Resource):
         Delete user
         """
         pseudo = check_identity().get("pseudo", "")
-        User_DB(pseudo=pseudo).remove_user()
-        return {"message": f"Success, User '{pseudo}' removed"}, 200
+        User_DB(pseudo=pseudo).delete()
+
+        return {"status": f"User '{pseudo}' deleted successfully"}, 200
 
     @home_db_ns.response(200, 'User data updated')
     @home_db_ns.expect(model_home_update)
@@ -97,8 +99,9 @@ class Home_users(Resource):
             name=user.get("name").capitalize() if type(user.get("name", None)) == str else None,
             email=user.get("email", None),
             birthdate=datetime.strptime(user.get("birthdate"), '%d-%m-%Y') if type(user.get("birthdate", None)) == str else None
-        ).update_user()
-        return {"message": "Success, User updated"}, 200
+        ).update()
+
+        return {"status": "User updated successfully"}, 200
 
 @home_db_ns.response(500, 'Internal Server Error')
 @home_db_ns.response(403, 'Error with Database')
@@ -109,12 +112,12 @@ class Home_users_password(Resource):
     @home_db_ns.expect(model_home_user_password)
     def put(self):
         """
-        Change user password
+        Update user password
         """
         pseudo = check_identity().get("pseudo", "")
         User_DB(
             pseudo=pseudo,
             password=encode_pass(request.json.get("password")),
-        ).update_user()
+        ).update()
 
-        return {"message": f"Success, User '{pseudo}' password updated"}, 200
+        return {"status": f"User '{pseudo}' password updated successfully"}, 200

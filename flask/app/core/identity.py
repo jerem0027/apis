@@ -16,7 +16,7 @@ def check_identity() -> dict:
     if DEBUG:
         print(green("!!! Authentification in DEBUG mode !!!"))
         if not apikey:
-            return {"masterkey": True}
+            return {"masterkey": True, "pseudo": "test"}
         key = check_APIKEY(apikey)
         key.update({"masterkey": True})
         return key

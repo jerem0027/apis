@@ -6,7 +6,7 @@ from werkzeug.datastructures import FileStorage
 
 api = server.api
 
-# Upload DAT file
+# Upload DAT file (Exemple envoi fichier)
 upload_file = api.parser()
 upload_file.add_argument('file', location='files', type=FileStorage, required=True)
 doc_file = {"file": "Documentation fichier (peut contenir de l'HTML)"}

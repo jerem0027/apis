@@ -21,7 +21,6 @@ class User_DB(db.Model):
     def __str__(self) -> str:
         return f"{self.pseudo} - {self.first_name} - {self.name} - {self.email} - {self.birthdate} - {self.inscription_date}"
 
-    # TODO: mettre les date dans le bon sens
     def to_dict(self) -> dict:
         return {
             "pseudo" : self.pseudo,
@@ -34,42 +33,53 @@ class User_DB(db.Model):
 
     def check_pseudo(self) -> bool:
         """Return true if pseudo already exist"""
-        return db.session.query(self.__class__).get(self.pseudo) != None
+        try:
+            user = db.session.query(self.__class__).get(self.pseudo)
+        except:
+            raise DBError("Error during update of user")
+        return user != None
 
-    def get_user(self) -> "User_DB":
+    def get(self) -> dict:
         """Return User with this pseudo"""
-        return db.session.query(self.__class__).get(self.pseudo)
+        try:
+            user = db.session.query(self.__class__).get(self.pseudo)
+        except:
+            raise DBError("Error during update of user")
+        return user.to_dict()
 
-    def add_user(self) -> bool:
+    def create(self) -> None:
         if self.check_pseudo():
             raise DBError(f"Error : User '{self.pseudo}' already exist")
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except:
+            raise DBError("Error during update of user")
 
-        db.session.add(self)
-        db.session.commit()
-        return True
-
-    def remove_user(self) -> bool:
+    def delete(self) -> None:
         if not self.check_pseudo():
             raise ObjectNotFound(f"Error : User '{self.pseudo}' not found")
 
-        db.session.delete(self.get_user())
-        db.session.commit()
-        return True
+        try:
+            db.session.delete(self.get_user())
+            db.session.commit()
+        except:
+            raise DBError("Error during update of user")
 
-    def update_user(self) -> bool:
+    def update(self) -> None:
         if not self.check_pseudo():
             raise ObjectNotFound(f"Error : User '{self.pseudo}' not found")
-
         user = self.get_user()
         for key in list(self.__dict__. keys())[1:]:
             if key == "pseudo" or getattr(self, key) == None:
                 continue
             if getattr(self, key) != getattr(user, key):
                 setattr(user, key, getattr(self, key))
-
-        db.session.add(user)
-        db.session.commit()
-        return True
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except:
+            raise DBError("Error during update of user")
 
 try:
     with app.app_context():

@@ -18,5 +18,7 @@ class YamlError(APIError):
     pass
 class DBError(APIError):
     pass
+class Unauthorized(APIError):
+    pass
 class FileError(APIError):
     pass

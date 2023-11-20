@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import logging
 import socket
 import time
 import traceback
 
 from errors.errors import (APIError, DBError, FileError, ObjectNotFound,
-                           TokenError)
-from flask import g, request
+                           TokenError, Unauthorized)
 from server.instance import server
 from werkzeug.exceptions import InternalServerError
+
+from flask import g, request
 
 app, api = server.app, server.api
 
@@ -18,6 +18,7 @@ app, api = server.app, server.api
 # 402 -> File ERROR
 # 403 -> DB ERROR
 # 404 -> Not Found ERROR
+# 405 -> Unauthorized
 # 499 -> API ERROR
 # 500 -> Exception catched
 
@@ -63,6 +64,19 @@ def handle_database_error(e):
 @api.errorhandler(ObjectNotFound)
 def handle_object_not_found(e):
     code = 404
+    type = e.__class__.__name__
+    response = {
+        "error": {
+            "message": str(e),
+            "type": type,
+            "code": code
+        }
+    }
+    return response, code
+
+@api.errorhandler(Unauthorized)
+def handle_access_unauthorized(e):
+    code = 405
     type = e.__class__.__name__
     response = {
         "error": {
