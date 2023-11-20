@@ -6,4 +6,4 @@ then
     exit 1
 fi
 
-docker build . -t flask_api:${version}
+docker build . -t flask-api:${version}

@@ -75,6 +75,6 @@ class Home_users_connection(Resource):
         )
         if not user_bd.check_pseudo():
             raise ObjectNotFound("User not found")
-        if not decode_pass(user.get("password"), user_bd.get_user().password):
+        if not decode_pass(user.get("password"), user_bd.get().password):
             raise ObjectNotFound("Password doesn't match")
         return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "pseudo": user.get("pseudo")}, 200

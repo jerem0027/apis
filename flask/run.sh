@@ -6,11 +6,22 @@ then
     exit 1
 fi
 
-# Flask API
-docker run \
-    --network website-network \
-    -d -p 5000:5000 \
-    --restart unless-stopped \
-    --name api-flask \
-    --env-file configs/flask.env \
-    flask_api:${version}
+case "$1" in
+    rm)
+        docker stop flask-api-${version} && docker rm flask-api-${version}
+    ;;
+    stop)
+        docker stop $(docker ps | grep flask-api | awk '{print $1}')
+    ;;
+    start|*)
+        docker run \
+            --network website-network \
+            -d -p 5000:5000 \
+            --restart unless-stopped \
+            --name flask-api-${version} \
+            --env-file ../configs/flask.env \
+            --ip 172.20.0.10 \
+            -v /ssl/:/cert/ \
+            flask-api:${version}
+    ;;
+esac

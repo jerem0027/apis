@@ -39,13 +39,13 @@ class User_DB(db.Model):
             raise DBError("Error during update of user")
         return user != None
 
-    def get(self) -> dict:
+    def get(self) -> "User_DB":
         """Return User with this pseudo"""
         try:
             user = db.session.query(self.__class__).get(self.pseudo)
         except:
             raise DBError("Error during update of user")
-        return user.to_dict()
+        return user
 
     def create(self) -> None:
         if self.check_pseudo():

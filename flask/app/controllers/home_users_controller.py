@@ -69,7 +69,7 @@ class Home_users(Resource):
         Get user data
         """
         pseudo = check_identity().get("pseudo", "")
-        user_data = User_DB(pseudo=pseudo).get()
+        user_data = User_DB(pseudo=pseudo).get().to_dict()
         if not user_data:
             raise ObjectNotFound(f"User '{pseudo}' not found")
 
