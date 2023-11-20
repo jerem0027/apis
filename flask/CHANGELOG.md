@@ -1,5 +1,12 @@
 # Changelog Flask API
 
+## v1.1.0 (11-2023)
+
+- Methode to create secret santa
+- Methode to delete secret santa
+- Methode to get secret santa data
+- Update methode to get guest data from link
+
 ## v1.0.6 (11-2023)
 
 - Changelog is now accessible from the api
