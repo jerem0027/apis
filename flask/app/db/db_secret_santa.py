@@ -1,6 +1,4 @@
 
-from uuid import uuid4
-
 from errors.errors import DBError, ObjectNotFound, Unauthorized
 from server.envconfig import confdb
 from server.instance import server
@@ -14,41 +12,55 @@ class Guest_DB(db.Model):
     secret_santa_id = db.Column(db.Integer, db.ForeignKey('secret_santa.id'), nullable=False)
     name            = db.Column(db.String(64), nullable=False)
     email           = db.Column(db.String(64), nullable=False)
-    target          = db.Column(db.String(64), nullable=False)
-    target_email    = db.Column(db.String(64), nullable=False)
+    target_link     = db.Column(db.String(36), nullable=False, unique=True)
+    gift1           = db.Column(db.String(36), nullable=True)
+    gift2           = db.Column(db.String(36), nullable=True)
+    gift3           = db.Column(db.String(36), nullable=True)
+    gift4           = db.Column(db.String(36), nullable=True)
+    gift5           = db.Column(db.String(36), nullable=True)
 
-    def __str__(self) -> str:
-        return f"{self.link} - {self.name} - {self.email} - {self.target} - {self.target_email}"
-    
     def to_dict(self) -> dict:
         return {
             "link": self.link,
             "name": self.name,
             "email": self.email,
-            "target": self.target,
-            "target_email": self.target_email
+            "target_link": self.target_link,
+            "gift_list": [
+                self.gift1 if self.gift1 else "",
+                self.gift2 if self.gift2 else "",
+                self.gift3 if self.gift3 else "",
+                self.gift4 if self.gift4 else "",
+                self.gift5 if self.gift5 else ""
+            ]
         }
 
-    def get(self) -> dict:
+    def get(self) -> "Guest_DB":
         try:
             guest = db.session.query(self.__class__).get(self.link)
         except:
             raise DBError("Error database consulting")
-        if guest:
-            return guest.to_dict()
-        else:
+        if not guest:
             raise ObjectNotFound(f"Error : No guest find for link {self.link}")
+        return guest
+
+    def update(self) -> None:
+        try:
+            guest = db.session.query(self.__class__).get(self.link)
+        except:
+            raise DBError("Error database consulting")
+        if not guest:
+            raise ObjectNotFound(f"Error : No guest find for link {self.link}")
+        
+        for key in list(self.__dict__. keys()):
+            if key.startswith("gift"):
+                setattr(guest, key, getattr(self, key))
+        try:
+            db.session.add(guest)
+            db.session.commit()
+        except:
+            raise DBError("Error during update of user")
 
     def create(self) -> None:
-        self.link = str(uuid4())
-        for i in range(3):
-            if db.session.query(self.__class__).get(self.link):
-                if i == 2:
-                    raise DBError("Error during creation of new guest")
-                self.link = str(uuid4())
-                continue
-            break
-
         if not db.session.query(self.__class__).get(self.link):
             db.session.add(self)
             db.session.commit()
@@ -63,9 +75,6 @@ class Secret_santa_DB(db.Model):
     name            = db.Column(db.String(64), nullable=False)
     date_end        = db.Column(db.Date, nullable=False)
 
-    def __str__(self) -> str:
-        return f"{self.link} - {self.name} - {self.email} - {self.target} - {self.target_email}"
-    
     def to_dict(self) -> dict:
         return {
             "id": self.id,
@@ -74,14 +83,14 @@ class Secret_santa_DB(db.Model):
             "date_end": str(self.date_end),
         }
 
-    def get(self) -> dict:
+    def get(self) -> "Secret_santa_DB":
         try:
             secret_santa:Secret_santa_DB = db.session.query(self.__class__).get(self.id)
         except:
             raise DBError("Error database consulting")
         if not secret_santa:
             raise ObjectNotFound(f"Error : No secret santa find for id {self.id}")
-        return secret_santa.to_dict()
+        return secret_santa
 
     def create(self) -> int:
         try:

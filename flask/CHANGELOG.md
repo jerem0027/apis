@@ -1,4 +1,13 @@
+[RETOUR](./)
+
 # Changelog Flask API
+
+
+## v1.1.1 (11-2023)
+
+- Fix: methode dedicated to secret santa
+- Methode to update secret santa guest gift list
+- Change some database structure
 
 ## v1.1.0 (11-2023)
 

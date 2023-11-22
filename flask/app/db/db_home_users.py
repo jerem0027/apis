@@ -61,7 +61,7 @@ class User_DB(db.Model):
             raise ObjectNotFound(f"Error : User '{self.pseudo}' not found")
 
         try:
-            db.session.delete(self.get_user())
+            db.session.delete(self.get())
             db.session.commit()
         except:
             raise DBError("Error during update of user")
@@ -69,7 +69,7 @@ class User_DB(db.Model):
     def update(self) -> None:
         if not self.check_pseudo():
             raise ObjectNotFound(f"Error : User '{self.pseudo}' not found")
-        user = self.get_user()
+        user = self.get()
         for key in list(self.__dict__. keys())[1:]:
             if key == "pseudo" or getattr(self, key) == None:
                 continue
