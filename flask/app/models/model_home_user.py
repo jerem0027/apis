@@ -6,107 +6,107 @@ from server.instance import server
 
 api = server.api
 
-model_home_user_password = api.model('model_home_user_password',{
-    'password': fields.String(
+model_home_user_password = api.model("model_home_user_password",{
+    "password": fields.String(
         required=True,
-        title='password',
-        example='Azerty_123',
-        description='Password of user',
+        title="password",
+        example="Azerty_123",
+        description="Password of user",
     )
 })
 
-model_home_user_connection = api.model('home_user_connection',{
-    'pseudo': fields.String(
+model_home_user_connection = api.model("home_user_connection",{
+    "pseudo": fields.String(
         required=True,
-        title='Pseudo',
-        example='dark_lord',
-        description='Pseudo of user',
+        title="Pseudo",
+        example="dark_lord",
+        description="Pseudo of user",
         pattern="^[a-z][-a-z0-9_]+[a-z0-9]$"
     ),
 
-    'password': fields.String(
+    "password": fields.String(
         required=True,
-        title='password',
-        example='Azerty_123',
-        description='Password of user',
+        title="password",
+        example="Azerty_123",
+        description="Password of user",
     )
 })
 
-model_home_user = api.model('home_user',{
+model_home_user = api.model("home_user",{
 
-    'pseudo': fields.String(
+    "pseudo": fields.String(
         required=True,
-        title='Pseudo',
-        example='dark_lord',
-        description='Pseudo of new user',
+        title="Pseudo",
+        example="dark_lord",
+        description="Pseudo of new user",
         pattern="^[a-z][-a-z0-9_]+[a-z0-9]$"
     ),
 
-    'first_name': fields.String(
+    "first_name": fields.String(
         required=True,
-        title='First_name',
-        example='Julien',
-        description='First name of new user',
+        title="First_name",
+        example="Julien",
+        description="First name of new user",
         pattern="^[a-zA-z][a-z- ]+[a-z]$"
     ),
 
-    'birthdate': fields.Date(
+    "birthdate": fields.Date(
         required=True,
-        title='Birthdate',
-        example='01-01-2023',
-        description='Birthdate of the new user'
+        title="Birthdate",
+        example="01-01-2023",
+        description="Birthdate of the new user"
     ),
 
-    'name': fields.String(
+    "name": fields.String(
         required=True,
-        title='Name',
-        example='Dupont',
-        description='Name of new user',
+        title="Name",
+        example="Dupont",
+        description="Name of new user",
         pattern="^[a-zA-z][a-z- ]+[a-z]$"
     ),
 
-    'email': fields.String(
+    "email": fields.String(
         required=True,
-        title='Email',
-        example='julien_dupont@mail.com',
-        description='Email of new user',
+        title="Email",
+        example="julien_dupont@mail.com",
+        description="Email of new user",
         pattern="^[a-z][-a-z_0-9.]+@[a-z-.]+$"
     ),
 
-    'password': fields.String(
+    "password": fields.String(
         required=True,
-        title='password',
-        example='Azerty_123',
-        description='Password of new user',
+        title="password",
+        example="Azerty_123",
+        description="Password of new user",
     )
 })
 
-model_home_update = api.model('home_user_update',{
-    'first_name': fields.String(
+model_home_update = api.model("home_user_update",{
+    "first_name": fields.String(
         required=False,
-        title='First_name',
-        example='Julien',
-        description='First name of new user',
+        title="First_name",
+        example="Julien",
+        description="First name of new user",
         pattern="^[a-zA-z][a-z- ]+[a-z]$"
     ),
-    'birthdate': fields.Date(
+    "birthdate": fields.Date(
         required=False,
-        title='Birthdate',
-        example='01-01-2023',
-        description='Birthdate of the new user'
+        title="Birthdate",
+        example="01-01-2023",
+        description="Birthdate of the new user"
     ),
-    'name': fields.String(
+    "name": fields.String(
         required=False,
-        title='Name',
-        example='Dupont',
-        description='Name of new user',
+        title="Name",
+        example="Dupont",
+        description="Name of new user",
         pattern="^[a-zA-z][a-z- ]+[a-z]$"
     ),
-    'email': fields.String(
+    "email": fields.String(
         required=False,
-        title='Email',
-        example='julien_dupont@mail.com',
-        description='Email of new user',
+        title="Email",
+        example="julien_dupont@mail.com",
+        description="Email of new user",
         pattern="^[a-z][-a-z_0-9.]+@[a-z-.]+$"
     )
 })

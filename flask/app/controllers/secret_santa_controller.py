@@ -9,7 +9,7 @@ from db.db_home_users import User_DB
 from db.db_secret_santa import Guest_DB, Secret_santa_DB
 from errors.errors import DBError
 from flask_restx import Resource
-from models.model_secret_santa import form_secret_santa
+from models.model_secret_santa import form_secret_santa, form_update_guest_gift
 from server.instance import server
 
 from flask import request
@@ -54,19 +54,19 @@ class Guest_link(Resource):
 
     @secret_santa.response(200, 'Function ok')
     @secret_santa.response(404, 'Link not found')
+    @secret_santa.expect(form_update_guest_gift)
     def put(self, link:str):
         """
         Update guest information from Link
         """
-        #TODO: Ajouter securité pour modif elements
         gift_list = request.json.get("gift_list")
         Guest_DB(
             link=link,
-            gift1=gift_list[0].capitalize(),
-            gift2=gift_list[1].capitalize(),
-            gift3=gift_list[2].capitalize(),
-            gift4=gift_list[3].capitalize(),
-            gift5=gift_list[4].capitalize()
+            gift1=gift_list[0].capitalize() if len(gift_list) > 0 else "",
+            gift2=gift_list[1].capitalize() if len(gift_list) > 1 else "",
+            gift3=gift_list[2].capitalize() if len(gift_list) > 2 else "",
+            gift4=gift_list[3].capitalize() if len(gift_list) > 3 else "",
+            gift5=gift_list[4].capitalize() if len(gift_list) > 4 else ""
         ).update()
         return {"status": "Guest updated successfully"}, 200
 

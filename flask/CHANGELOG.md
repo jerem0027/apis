@@ -2,6 +2,9 @@
 
 # Changelog Flask API
 
+## v1.1.2 (11-2023)
+
+- Fix: Error when update guest with gift_list with less than 5 elements
 
 ## v1.1.1 (11-2023)
 
