@@ -69,6 +69,8 @@ def generate_MASTERKEY(payload:dict, master:bool=False) -> str:
     refresh = {
         "exp": datetime.utcnow() + delta,
         "iat": datetime.utcnow(),
-        "access_plus": True
+        "access_plus": True,
     }
+    if master:
+        refresh.update({"masterkey": True})
     return encode(refresh, confAuth.JWT_SECRET_KEY, algorithm="HS256")
