@@ -48,7 +48,7 @@ class Home_users(Resource):
         """
         Create user
         """
-        if not "masterkey" in check_identity():
+        if not check_identity().get("access_plus", False) == True:
             raise TokenError("Access denied")
         user:dict = request.json
         User_DB(

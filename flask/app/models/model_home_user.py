@@ -19,7 +19,7 @@ model_home_user_connection = api.model("home_user_connection",{
     "pseudo": fields.String(
         required=True,
         title="Pseudo",
-        example="dark_lord",
+        example="test",
         description="Pseudo of user",
         pattern="^[a-z][-a-z0-9_]+[a-z0-9]$"
     ),
@@ -37,7 +37,7 @@ model_home_user = api.model("home_user",{
     "pseudo": fields.String(
         required=True,
         title="Pseudo",
-        example="dark_lord",
+        example="test",
         description="Pseudo of new user",
         pattern="^[a-z][-a-z0-9_]+[a-z0-9]$"
     ),

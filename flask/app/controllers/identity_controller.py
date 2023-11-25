@@ -17,7 +17,7 @@ identity_model = api.model('identity',{
     'pseudo': fields.String(
         required=True,
         title='Pseudo',
-        example='dark_lord',
+        example='test',
         description='User pseudo'
     ),
 })
@@ -28,46 +28,18 @@ identity = api.namespace(
 )
 
 @identity.response(500, 'Internal Server Error')
-@identity.response(400, 'Missing parameter')
-@identity.route("/")
-class Identity(Resource):
-    @identity.response(200, 'APIKEY accepted')
-    def get(self):
-        """
-        check identity and access validity to API
-        """
-        return check_identity(), 200
-
-    @identity.response(200, 'New APIKEY generated')
-    @identity.expect(identity_model)
-    def post(self):
-        """
-        Generate APIKEY
-        """
-        if not "masterkey" in check_identity():
-            raise TokenError("Access denied")
-        return { "APIKEY": generate_APIKEY(request.json)}, 200
-
-    @identity.response(200, 'New MASTERKEY generated')
-    def patch(self):
-        """
-        Generate MASTER APIKEY (only for admin)
-        """
-        return { "APIKEY": generate_MASTERKEY(check_identity())}, 200
-    
-@identity.response(500, 'Internal Server Error')
 @identity.response(404, 'User not found')
 @identity.response(403, 'Error with Database')
 @identity.response(401, 'Invalide Access Token')
 @identity.route("/connection/")
-class Home_users_connection(Resource):
+class Identity(Resource):
     @identity.response(200, 'Password march successfully')
     @identity.expect(model_home_user_connection)
     def put(self):
         """
         check connection validity
         """
-        if not "masterkey" in check_identity():
+        if not check_identity().get("access_plus", False) == True:
             raise TokenError("Access denied")
         user:dict = request.json
         user_bd = User_DB(
@@ -78,3 +50,64 @@ class Home_users_connection(Resource):
         if not decode_pass(user.get("password"), user_bd.get().password):
             raise ObjectNotFound("Password doesn't match")
         return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "pseudo": user.get("pseudo")}, 200
+
+apikey = api.namespace(
+    name='apikey',
+    description='APIkey namespace'
+)
+
+@apikey.response(500, 'Internal Server Error')
+@apikey.response(400, 'Missing parameter')
+@apikey.route("/")
+class Apikey(Resource):
+    @apikey.response(200, 'APIKEY accepted')
+    def get(self):
+        """
+        Check identity and access validity to API
+        """
+        return check_identity(), 200
+
+    @apikey.response(200, 'New APIKEY generated')
+    @apikey.expect(identity_model)
+    def post(self):
+        """
+        Génerate new apikey (admin only)
+        """
+        if not check_identity().get("access_plus", False) == True:
+            raise TokenError("Access denied")
+        return { "APIKEY": generate_APIKEY(request.json)}, 200
+
+@apikey.response(500, 'Internal Server Error')
+@apikey.response(400, 'Missing parameter')
+@apikey.route("/update/")
+class Apikey_update(Resource):
+    @apikey.response(200, 'New APIKEY generated')
+    def get(self):
+        """
+        Generate new APIKEY
+        """
+        return { "APIKEY": generate_APIKEY(check_identity())}, 200
+
+@apikey.response(500, 'Internal Server Error')
+@apikey.response(400, 'Missing parameter')
+@apikey.route("/masterkey/")
+class Masterkey(Resource):
+
+    @apikey.response(200, 'APIKEY accepted')
+    def get(self):
+        """
+        Generate temporary MASTER APIKEY
+        """
+        return { "MASTERKEY": generate_MASTERKEY(check_identity())}, 200
+
+# @identity.response(500, 'Internal Server Error')
+# @identity.response(400, 'Missing parameter')
+# @identity.route("/masterkey/")
+# class Masterkey(Resource):
+
+#     @identity.response(200, 'APIKEY accepted')
+#     def get(self):
+#         """
+#         Generate MASTER APIKEY
+#         """
+#         return { "MASTERKEY": generate_MASTERKEY({"masterkey": True}, True)}, 200
