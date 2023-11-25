@@ -6,7 +6,7 @@ from distutils.util import strtobool
 
 from core.colors import green
 
-API_VERSION = "1.1.2"
+API_VERSION = "1.1.3"
 BASE_URL = "/api/v1"
 DESCRIPTION = f"""
 <h2>API dédié à la partie Secret Santa du site</h2>
