@@ -13,6 +13,9 @@ case "$1" in
     stop)
         docker stop $(docker ps | grep flask-api | awk '{print $1}')
     ;;
+    restart)
+        docker restart $(docker ps | grep flask-api | awk '{print $1}')
+    ;;
     start|*)
         docker run \
             --network website-network \

@@ -54,4 +54,4 @@ class confdb:
 class confAuth:
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "super-Secret-Key")
     JWT_ACCESS_TOKEN_EXPIRES = 10800
-    JWT_MASTER_ACCESS_TOKEN_EXPIRES = 10
+    JWT_MASTER_ACCESS_TOKEN_EXPIRES = 1
