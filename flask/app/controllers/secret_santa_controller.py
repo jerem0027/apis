@@ -212,6 +212,8 @@ class Secret_Santa_Data(Resource):
         rtn = list()
         for sesa in secret_santa:
             guest = Guest_DB(secret_santa_id=sesa.id, user=user).get_guest_from_sesa()
+            if not guest:
+                continue
             tmp = sesa.to_dict()
             tmp["link"] = guest.link
             rtn.append(tmp)
