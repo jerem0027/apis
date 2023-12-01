@@ -25,7 +25,7 @@ home_db_ns = api.namespace(
 @home_db_ns.response(404, 'User not found')
 @home_db_ns.response(403, 'Error with Database')
 @home_db_ns.response(401, 'Invalide Access Token')
-@home_db_ns.route("/user/<string:pseudo>")
+@home_db_ns.route("/<string:pseudo>")
 class Home_users_pseudo(Resource):
     @home_db_ns.response(200, 'User found')
     @home_db_ns.response(201, 'User not found')
@@ -40,7 +40,7 @@ class Home_users_pseudo(Resource):
 @home_db_ns.response(500, 'Internal Server Error')
 @home_db_ns.response(403, 'Error with Database')
 @home_db_ns.response(401, 'Invalide Access Token')
-@home_db_ns.route("/user/")
+@home_db_ns.route("/")
 class Home_users(Resource):
     @home_db_ns.response(200, 'User created successfully')
     @home_db_ns.expect(model_home_user)
@@ -52,10 +52,10 @@ class Home_users(Resource):
             raise TokenError("Access denied")
         user:dict = request.json
         User_DB(
-            pseudo=user.get("pseudo"),
+            pseudo=user.get("pseudo").lower(),
             first_name=user.get("first_name").capitalize(),
             name=user.get("name").capitalize(),
-            email=user.get("email"),
+            email=user.get("email").lower(),
             password=encode_pass(user.get("password")),
             birthdate=datetime.strptime(user.get("birthdate"), '%d-%m-%Y'),
             inscription_date=datetime.strptime(datetime.now().strftime('%d-%m-%Y'),'%d-%m-%Y')
@@ -106,7 +106,7 @@ class Home_users(Resource):
 @home_db_ns.response(500, 'Internal Server Error')
 @home_db_ns.response(403, 'Error with Database')
 @home_db_ns.response(401, 'Invalide Access Token')
-@home_db_ns.route("/user/password/")
+@home_db_ns.route("/password/")
 class Home_users_password(Resource):
     @home_db_ns.response(200, 'User created successfully')
     @home_db_ns.expect(model_home_user_password)

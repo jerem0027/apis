@@ -22,3 +22,5 @@ class Unauthorized(APIError):
     pass
 class FileError(APIError):
     pass
+class RequestError(APIError):
+    pass

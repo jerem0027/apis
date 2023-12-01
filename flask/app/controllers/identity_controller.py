@@ -51,24 +51,19 @@ class Identity(Resource):
             raise ObjectNotFound("Password doesn't match")
         return {"message": "Success, Password matched", "APIKEY": generate_APIKEY({"pseudo": user.get("pseudo")}), "pseudo": user.get("pseudo")}, 200
 
-apikey = api.namespace(
-    name='apikey',
-    description='APIkey namespace'
-)
-
-@apikey.response(500, 'Internal Server Error')
-@apikey.response(400, 'Missing parameter')
-@apikey.route("/")
+@identity.response(500, 'Internal Server Error')
+@identity.response(400, 'Missing parameter')
+@identity.route("/apikey/")
 class Apikey(Resource):
-    @apikey.response(200, 'APIKEY accepted')
+    @identity.response(200, 'APIKEY accepted')
     def get(self):
         """
         Check identity and access validity to API
         """
         return check_identity(), 200
 
-    @apikey.response(200, 'New APIKEY generated')
-    @apikey.expect(identity_model)
+    @identity.response(200, 'New APIKEY generated')
+    @identity.expect(identity_model)
     def post(self):
         """
         Génerate new apikey (admin only)
@@ -77,23 +72,23 @@ class Apikey(Resource):
             raise TokenError("Access denied")
         return { "APIKEY": generate_APIKEY(request.json)}, 200
 
-@apikey.response(500, 'Internal Server Error')
-@apikey.response(400, 'Missing parameter')
-@apikey.route("/update/")
+@identity.response(500, 'Internal Server Error')
+@identity.response(400, 'Missing parameter')
+@identity.route("/apikey/update/")
 class Apikey_update(Resource):
-    @apikey.response(200, 'New APIKEY generated')
+    @identity.response(200, 'New APIKEY generated')
     def get(self):
         """
         Generate new APIKEY
         """
         return { "APIKEY": generate_APIKEY(check_identity())}, 200
 
-@apikey.response(500, 'Internal Server Error')
-@apikey.response(400, 'Missing parameter')
-@apikey.route("/masterkey/")
+@identity.response(500, 'Internal Server Error')
+@identity.response(400, 'Missing parameter')
+@identity.route("/masterkey/")
 class Masterkey(Resource):
 
-    @apikey.response(200, 'APIKEY accepted')
+    @identity.response(200, 'APIKEY accepted')
     def get(self):
         """
         Generate temporary MASTER APIKEY

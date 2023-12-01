@@ -34,7 +34,7 @@ form_secret_santa = api.model("form_secret_santa",{
     "date_end": fields.Date(
         required=True,
         title="Date end",
-        example="01-01-2023",
+        example="25-12-2023",
         description="Date fin prévu du secret santa"
     ),
     "guests":  fields.List(
@@ -43,6 +43,21 @@ form_secret_santa = api.model("form_secret_santa",{
         min_items=3,
         title="List des personnes participantes",
         description="The email address of the technical referent"
+    )
+})
+
+form_update_secret_santa = api.model("form_update_secret_santa",{
+    "title": fields.String(
+        required=False,
+        title="Title",
+        description="Nouveau titre du secret santa",
+        example="Secret santa des champions",
+    ),
+    "date_end": fields.Date(
+        required=False,
+        title="Date end",
+        example="25-12-2023",
+        description="Nouvelle date fin prévu du secret santa"
     )
 })
 

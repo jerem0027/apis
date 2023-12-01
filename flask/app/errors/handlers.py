@@ -6,7 +6,7 @@ import time
 import traceback
 
 from errors.errors import (APIError, DBError, FileError, ObjectNotFound,
-                           TokenError, Unauthorized)
+                           RequestError, TokenError, Unauthorized)
 from server.instance import server
 from werkzeug.exceptions import InternalServerError
 
@@ -15,10 +15,11 @@ from flask import g, request
 app, api = server.app, server.api
 
 # 401 -> Token ERROR
-# 402 -> File ERROR
+# 402 -> Request ERROR
 # 403 -> DB ERROR
 # 404 -> Not Found ERROR
 # 405 -> Unauthorized
+# 409 -> File ERROR
 # 499 -> API ERROR
 # 500 -> Exception catched
 
@@ -35,8 +36,8 @@ def handle_token_error(e):
     }
     return response, code
 
-@api.errorhandler(FileError)
-def handle_error_database(e):
+@api.errorhandler(RequestError)
+def handle_error_request(e):
     code = 402
     type = e.__class__.__name__
     response = {
@@ -77,6 +78,19 @@ def handle_object_not_found(e):
 @api.errorhandler(Unauthorized)
 def handle_access_unauthorized(e):
     code = 405
+    type = e.__class__.__name__
+    response = {
+        "error": {
+            "message": str(e),
+            "type": type,
+            "code": code
+        }
+    }
+    return response, code
+
+@api.errorhandler(FileError)
+def handle_error_file(e):
+    code = 409
     type = e.__class__.__name__
     response = {
         "error": {
