@@ -58,7 +58,8 @@ class Guest_DB(db.Model):
             self_gift = getattr(self, f"gift{i}")
             if guest_gift != self_gift and self_gift != None:
                 setattr(guest, f"gift{i}", self_gift)
-        guest.user = self.user if self.user != None else None
+        if self.user != None:
+            guest.user = self.user
         try:
             db.session.add(guest)
             db.session.commit()
