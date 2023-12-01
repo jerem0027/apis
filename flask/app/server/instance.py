@@ -39,8 +39,6 @@ class Server:
         self.app.config['SQLALCHEMY_BINDS'] = {
             ## DB DE TEST
             confdb.db_test_name: f"mysql+pymysql://{confdb.DB_USER}:{confdb.DB_PASSWORD}@{confdb.DB_HOST}:{confdb.DB_PORT}/{confdb.db_test_name}",
-            ## DB SECRET SANTA
-            confdb.db_santa_name: f"mysql+pymysql://{confdb.DB_USER}:{confdb.DB_PASSWORD}@{confdb.DB_HOST}:{confdb.DB_PORT}/{confdb.db_santa_name}",
             ## DB HOME
             confdb.db_home_name: f"mysql+pymysql://{confdb.DB_USER}:{confdb.DB_PASSWORD}@{confdb.DB_HOST}:{confdb.DB_PORT}/{confdb.db_home_name}"
         }

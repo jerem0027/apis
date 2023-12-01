@@ -1,4 +1,5 @@
 
+from core.colors import red
 from errors.errors import DBError, ObjectNotFound, Unauthorized
 from server.envconfig import confdb
 from server.instance import server
@@ -7,7 +8,7 @@ app, api, db = server.app, server.api, server.db
 
 class Guest_DB(db.Model):
     __tablename__   = 'guest'
-    __bind_key__    = confdb.db_santa_name
+    __bind_key__    = confdb.db_home_name
     link            = db.Column(db.String(36), primary_key=True, unique=True)
     secret_santa_id = db.Column(db.Integer, db.ForeignKey('secret_santa.id'), nullable=False)
     name            = db.Column(db.String(64), nullable=False)
@@ -88,7 +89,7 @@ class Guest_DB(db.Model):
 
 class Secret_santa_DB(db.Model):
     __tablename__   = 'secret_santa'
-    __bind_key__    = confdb.db_santa_name
+    __bind_key__    = confdb.db_home_name
     id              = db.Column(db.Integer, primary_key=True, autoincrement=True)
     creator         = db.Column(db.String(64), db.ForeignKey('users.pseudo'), nullable=False)
     name            = db.Column(db.String(64), nullable=False)
@@ -166,7 +167,7 @@ class Secret_santa_DB(db.Model):
 
 try:
     with app.app_context():
-        db.create_all(bind_key=confdb.db_santa_name)
+        db.create_all(bind_key=confdb.db_home_name)
 except Exception as e:
-    print(e)
+    print(red(e))
     pass

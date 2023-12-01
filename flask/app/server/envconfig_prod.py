@@ -47,7 +47,6 @@ class confdb:
     DB_HOST = os.getenv("DB_HOST")
     DB_PORT = "3306"
 
-    db_santa_name = "home_secret_santa"
     db_home_name = "home_db"
     db_test_name = "home_tests"
 

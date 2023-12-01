@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from core.colors import red
 from errors.errors import DBError, ObjectNotFound
 from server.envconfig import confdb
 from server.instance import server
@@ -85,5 +86,5 @@ try:
     with app.app_context():
         db.create_all(bind_key=confdb.db_home_name)
 except Exception as e:
-    print(e)
+    print(red(e))
     pass
