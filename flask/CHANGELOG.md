@@ -2,6 +2,19 @@
 
 # Changelog Flask API
 
+## v1.2.0 (12-2023)
+
+- Feat:
+    - Methode to update secret santa
+    - Methode to list secret santa
+    - Methode to list secret santa as guest
+    - Improve connection and changes in db
+- Fix:
+  - Change url path for user creation and update
+  - Force user and email in lower case
+  - Change url path for apikey and masterkey managing
+  - Correction of methode to update guest gift list and accosication to user account
+
 ## v1.1.3 (11-2023)
 
 - Feat: Imporve masterkey generation and uses
