@@ -50,7 +50,7 @@ Puis copier et adapter le contenue suivant:
         "FLASK_DEBUG": "True",
         "DB_PASSWORD": "Check in env file",
         "MAILPASS": "Check in env file",
-        "DB_HOST": "jeremiehenrion.serveblog.net"
+        "DB_HOST": "jeremiehenrion.eu"
       },
       "args": [
         "--chdir",
@@ -72,7 +72,7 @@ Puis copier et adapter le contenue suivant:
         "ENV": "develop",
         "DB_PASSWORD": "Check in env file",
         "MAILPASS": "Check in env file",
-        "DB_HOST": "jeremiehenrion.serveblog.net"
+        "DB_HOST": "jeremiehenrion.eu"
       },
       "args": [
         "--chdir",
