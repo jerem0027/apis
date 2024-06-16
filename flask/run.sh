@@ -22,9 +22,9 @@ case "$1" in
             -d -p 5000:5000 \
             --restart unless-stopped \
             --name flask-api-${version} \
-            --env-file ../configs/flask.env \
+            --env-file ./configs/flask.env \
             --ip 172.20.0.10 \
-            -v /ssl/:/cert/ \
-            flask-api:${version}
+            -v ./certs/:/certs/ \
+            jerem0027/server:flask-api-${version}
     ;;
 esac

@@ -18,4 +18,4 @@ WORKDIR /app
 
 RUN mv server/envconfig_prod.py server/envconfig.py
 
-CMD ["python3", "-m", "gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "--certfile", "/cert/jeremiehenrion.chained.crt", "--keyfile", "/cert/jeremiehenrion.key", "app:app"]
+CMD ["python3", "-m", "gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "--certfile", "/certs/live/jeremiehenrion.eu/fullchain.pem", "--keyfile", "/certs/live/jeremiehenrion.eu/privkey.pem", "app:app"]

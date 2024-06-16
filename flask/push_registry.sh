@@ -6,4 +6,4 @@ then
     exit 1
 fi
 
-docker build . -t jerem0027/server:flask-api-${version}
+docker push jerem0027/server:flask-api-${version}
