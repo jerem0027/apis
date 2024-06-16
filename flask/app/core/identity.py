@@ -61,7 +61,7 @@ def generate_MASTERKEY(payload:dict, master:bool=False) -> str:
     """
     if not payload.get("masterkey", None):
         raise TokenError("Access Denied")
-    delta = timedelta(seconds=confAuth.JWT_MASTER_ACCESS_TOKEN_EXPIRES) if not master else timedelta(days=90)
+    delta = timedelta(seconds=confAuth.JWT_MASTER_ACCESS_TOKEN_EXPIRES) if not master else timedelta(days=180)
     refresh = {
         "exp": datetime.utcnow() + delta,
         "iat": datetime.utcnow(),
